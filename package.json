@@ -111,7 +111,7 @@
     "complex128",
     "complex128array",
     "float64",
-    "single"
+    "double"
   ],
   "funding": {
     "type": "opencollective",
