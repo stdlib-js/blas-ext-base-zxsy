@@ -53,38 +53,32 @@ This API is a specialized version of the package [`@stdlib/blas-ext/base/zaxpby`
 
 <!-- /.intro -->
 
+<section class="installation">
 
+## Installation
+
+```bash
+npm install @stdlib/blas-ext-base-zxsy
+```
+
+Alternatively,
+
+-   To load the package in a website via a `script` tag without installation and bundlers, use the [ES Module][es-module] available on the [`esm`][esm-url] branch (see [README][esm-readme]).
+-   If you are using Deno, visit the [`deno`][deno-url] branch (see [README][deno-readme] for usage intructions).
+-   For use in Observable, or in browser/node environments, use the [Universal Module Definition (UMD)][umd] build available on the [`umd`][umd-url] branch (see [README][umd-readme]).
+
+The [branches.md][branches-url] file summarizes the available branches and displays a diagram illustrating their relationships.
+
+To view installation and usage instructions specific to each branch build, be sure to explicitly navigate to the respective README files on each branch, as linked to above.
+
+</section>
 
 <section class="usage">
 
 ## Usage
 
-To use in Observable,
-
 ```javascript
-zxsy = require( 'https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zxsy@umd/browser.js' )
-```
-
-To vendor stdlib functionality and avoid installing dependency trees for Node.js, you can use the UMD server build:
-
-```javascript
-var zxsy = require( 'path/to/vendor/umd/blas-ext-base-zxsy/index.js' )
-```
-
-To include the bundle in a webpage,
-
-```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zxsy@umd/browser.js"></script>
-```
-
-If no recognized module system is present, access bundle contents via the global scope:
-
-```html
-<script type="text/javascript">
-(function () {
-    window.zxsy;
-})();
-</script>
+var zxsy = require( '@stdlib/blas-ext-base-zxsy' );
 ```
 
 #### zxsy( N, x, strideX, y, strideY )
@@ -195,16 +189,11 @@ zxsy.ndarray( 3, x, 1, x.length-3, y, 1, y.length-3 );
 
 <!-- eslint no-undef: "error" -->
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-array-discrete-uniform@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/array-complex128@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/console-log-each@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zxsy@umd/browser.js"></script>
-<script type="text/javascript">
-(function () {
+```javascript
+var discreteUniform = require( '@stdlib/random-array-discrete-uniform' );
+var Complex128Array = require( '@stdlib/array-complex128' );
+var logEach = require( '@stdlib/console-log-each' );
+var zxsy = require( '@stdlib/blas-ext-base-zxsy' );
 
 var xbuf = discreteUniform( 20, -100, 100, {
     'dtype': 'float64'
@@ -217,11 +206,6 @@ var y = new Complex128Array( ybuf.buffer );
 
 zxsy( x.length, x, 1, y, 1 );
 logEach( '%s', y );
-
-})();
-</script>
-</body>
-</html>
 ```
 
 </section>
@@ -230,7 +214,150 @@ logEach( '%s', y );
 
 <!-- C interface documentation. -->
 
+* * *
 
+<section class="c">
+
+## C APIs
+
+<!-- Section to include introductory text. Make sure to keep an empty line after the intro `section` element and another before the `/section` close. -->
+
+<section class="intro">
+
+</section>
+
+<!-- /.intro -->
+
+<!-- C usage documentation. -->
+
+<section class="usage">
+
+### Usage
+
+```c
+#include "stdlib/blas/ext/base/zxsy.h"
+```
+
+#### stdlib_strided_zxsy( N, \*X, strideX, \*Y, strideY )
+
+Subtracts elements of a double-precision complex floating-point strided array `y` from the corresponding elements of a double-precision complex floating-point strided array `x` and assigns the results to `y`.
+
+```c
+#include "stdlib/complex/float64/ctor.h"
+
+const double x[] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+double y[] = { 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 };
+
+stdlib_strided_zxsy( 3, (stdlib_complex128_t *)x, 1, (stdlib_complex128_t *)y, 1 );
+```
+
+The function accepts the following arguments:
+
+-   **N**: `[in] CBLAS_INT` number of indexed elements.
+-   **X**: `[in] stdlib_complex128_t*` input array.
+-   **strideX**: `[in] CBLAS_INT` stride length for `X`.
+-   **Y**: `[inout] stdlib_complex128_t*` output array.
+-   **strideY**: `[in] CBLAS_INT` stride length for `Y`.
+
+```c
+void stdlib_strided_zxsy( const CBLAS_INT N, const stdlib_complex128_t *X, const CBLAS_INT strideX, stdlib_complex128_t *Y, const CBLAS_INT strideY );
+```
+
+<!--lint disable maximum-heading-length-->
+
+#### stdlib_strided_zxsy_ndarray( N, \*X, strideX, offsetX, \*Y, strideY, offsetY )
+
+<!--lint enable maximum-heading-length-->
+
+Subtracts elements of a double-precision complex floating-point strided array `y` from the corresponding elements of a double-precision complex floating-point strided array `x` and assigns the results to `y` using alternative indexing semantics.
+
+```c
+#include "stdlib/complex/float64/ctor.h"
+
+const double x[] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+double y[] = { 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 };
+
+stdlib_strided_zxsy_ndarray( 3, (stdlib_complex128_t *)x, 1, 0, (stdlib_complex128_t *)y, 1, 0 );
+```
+
+The function accepts the following arguments:
+
+-   **N**: `[in] CBLAS_INT` number of indexed elements.
+-   **X**: `[in] stdlib_complex128_t*` input array.
+-   **strideX**: `[in] CBLAS_INT` stride length for `X`.
+-   **offsetX**: `[in] CBLAS_INT` starting index for `X`.
+-   **Y**: `[inout] stdlib_complex128_t*` output array.
+-   **strideY**: `[in] CBLAS_INT` stride length for `Y`.
+-   **offsetY**: `[in] CBLAS_INT` starting index for `Y`.
+
+```c
+void stdlib_strided_zxsy_ndarray( const CBLAS_INT N, const stdlib_complex128_t *X, const CBLAS_INT strideX, const CBLAS_INT offsetX, stdlib_complex128_t *Y, const CBLAS_INT strideY, const CBLAS_INT offsetY );
+```
+
+</section>
+
+<!-- /.usage -->
+
+<!-- C API usage notes. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
+
+<section class="notes">
+
+</section>
+
+<!-- /.notes -->
+
+<!-- C API usage examples. -->
+
+<section class="examples">
+
+### Examples
+
+```c
+#include "stdlib/blas/ext/base/zxsy.h"
+#include "stdlib/complex/float64/ctor.h"
+#include "stdlib/complex/float64/real.h"
+#include "stdlib/complex/float64/imag.h"
+#include <stdio.h>
+
+int main( void ) {
+    // Create strided arrays:
+    const stdlib_complex128_t x[] = {
+        stdlib_complex128( 1.0, 2.0 ),
+        stdlib_complex128( 3.0, 4.0 ),
+        stdlib_complex128( 5.0, 6.0 ),
+        stdlib_complex128( 7.0, 8.0 )
+    };
+    stdlib_complex128_t y[] = {
+        stdlib_complex128( 2.0, 3.0 ),
+        stdlib_complex128( 4.0, 5.0 ),
+        stdlib_complex128( 6.0, 7.0 ),
+        stdlib_complex128( 8.0, 9.0 )
+    };
+
+    // Specify the number of indexed elements:
+    const int N = 4;
+
+    // Specify strides:
+    const int strideX = 1;
+    const int strideY = 1;
+
+    // Subtract `y` from `x` and assign the results to `y`:
+    stdlib_strided_zxsy( N, x, strideX, y, strideY );
+
+    // Print the result:
+    for ( int i = 0; i < N; i++ ) {
+        printf( "y[ %i ] = %lf + %lfi\n", i, stdlib_complex128_real( y[ i ] ), stdlib_complex128_imag( y[ i ] ) );
+    }
+}
+```
+
+</section>
+
+<!-- /.examples -->
+
+</section>
+
+<!-- /.c -->
 
 <!-- Section for related `stdlib` packages. Do not manually edit this section, as it is automatically populated. -->
 
@@ -312,9 +439,9 @@ Copyright &copy; 2016-2026. The Stdlib [Authors][stdlib-authors].
 
 [stdlib-license]: https://raw.githubusercontent.com/stdlib-js/blas-ext-base-zxsy/main/LICENSE
 
-[@stdlib/array/complex128]: https://github.com/stdlib-js/array-complex128/tree/umd
+[@stdlib/array/complex128]: https://github.com/stdlib-js/array-complex128
 
-[@stdlib/blas/ext/base/zaxpby]: https://github.com/stdlib-js/blas-ext-base-zaxpby/tree/umd
+[@stdlib/blas/ext/base/zaxpby]: https://github.com/stdlib-js/blas-ext-base-zaxpby
 
 [mdn-typed-array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
 
